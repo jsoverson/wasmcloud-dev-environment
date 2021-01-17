@@ -1,0 +1,42 @@
+#!/bin/bash
+
+CONTAINER_NAME="wasmcloud-dev"
+TAG="wasmcloud-dev:latest"
+
+function container_status() {
+  OUTPUT=$(docker container inspect -f '{{.State.Running}}' $1 2>&1)
+  ERR=$?
+  if [ "$OUTPUT" == "true" ]; then
+    echo "RUNNING"
+  else
+    if [[ $ERR -ne 0 ]]; then
+      echo "NOEXIST"
+    else
+      echo "STOPPED"
+    fi
+  fi
+}
+
+function cold_start() {
+  echo "starting container for the first time"
+  CID=$(docker run --name $CONTAINER_NAME -d -v /tmp/devenv-cargo:/cargo -v $(pwd):/usr/src/development -w /usr/src/development $TAG)
+  echo $CID
+}
+
+function restart() {
+  echo "restarting..."
+  NAME=$(docker start $CONTAINER_NAME)
+  echo "restarted $NAME"
+}
+
+case "$(container_status $CONTAINER_NAME)" in
+"RUNNING")
+  echo "container is already running"
+  ;;
+"NOEXIST")
+  cold_start
+  ;;
+*)
+  restart
+  ;;
+esac

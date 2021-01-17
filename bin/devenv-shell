@@ -1,0 +1,24 @@
+#!/bin/bash
+
+CONTAINER_NAME="wasmcloud-dev"
+
+function container_status() {
+  OUTPUT=$(docker container inspect -f '{{.State.Running}}' $1 2>&1)
+  ERR=$?
+  if [ "$OUTPUT" == "true" ]; then
+    echo "RUNNING"
+  else
+    if [[ $ERR -ne 0 ]]; then
+      echo "NOEXIST"
+    else
+      echo "STOPPED"
+    fi
+  fi
+}
+
+if [ $(container_status $CONTAINER_NAME) == "RUNNING" ]; then
+  docker exec -it $CONTAINER_NAME bash
+else
+  echo "no running container found, please start it first."
+  exit 1
+fi

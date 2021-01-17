@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  devenv:
+    build: .
+    volumes:
+      - ./.cargo:/cargo
+      - ./projects:/usr/src/development
+    links:
+      - redis
+      - nats
+  redis:
+    image: redis
+  nats:
+    image: nats:latest
