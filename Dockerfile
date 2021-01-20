@@ -22,7 +22,7 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && apt-get install n
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Export the cargo bin path
-ENV PATH="/root/.cargo/bin:${PATH};"
+ENV PATH="/root/.cargo/bin:/cargo/bin:${PATH}"
 
 ENV CARGO_HOME="/cargo"
 

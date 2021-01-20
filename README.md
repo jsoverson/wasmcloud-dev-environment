@@ -34,6 +34,19 @@ Stop the container
 
 Build and tag the latest docker image
 
+## NATS + redis
+
+You can use docker compose to start NATS and redis alongside the dev container.
+
+$ docker-compose up --no-start
+
+$ docker-compose start
+
+$ docker-compose stop
+
+### Using the wash REPL with docker-compose
+
+Specify the rpc host via the service name from the docker compose config, i.e. `wash up --host nats`
 
 ## iTerm2 + tmux integration with remote host
 

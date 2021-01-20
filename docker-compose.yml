@@ -1,7 +1,8 @@
 version: "3.8"
 services:
   devenv:
-    build: .
+    container_name: wasmcloud-dev
+    image: wasmcloud-dev:latest
     volumes:
       - ./.cargo:/cargo
       - ./projects:/usr/src/development
